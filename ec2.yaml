@@ -1,0 +1,45 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "PA general Security Groups"
+
+Parameters:
+    pVPCNAME:
+      Type: String
+Resources:
+    EC2Instance:
+        Type: "AWS::EC2::Instance"
+        Properties:
+            ImageId: "ami-04db49c0fb2215364"
+            InstanceType: "t2.micro"
+            KeyName: "birender"
+            AvailabilityZone: "ap-south-1a"
+            #NetworkInterfaces:
+              #- AssociatePublicIpAddress: true
+              #- DeviceIndex: '0'
+            SubnetId: 
+              Fn::ImportValue:
+                Fn::Sub: "EXP-${pVPCNAME}-EC2SubnetPub1a"
+            Tenancy: "default"
+            EbsOptimized: false
+            SecurityGroupIds: 
+              - Fn::ImportValue:
+                  Fn::Sub: "EXP-${pVPCNAME}-SecurityGroupPub1"
+            SourceDestCheck: true
+            IamInstanceProfile: "AmazonSSMRoleForInstancesQuickSetup"
+            Tags: 
+              - 
+                Key: "Owner"
+                Value: "birender.singh@nagarro.com"
+              - 
+                Key: "Environment"
+                Value: "Dev"
+              - 
+                Key: "Project"
+                Value: "pa"
+              - 
+                Key: "Name"
+                Value: "bh-pub-1a"
+            HibernationOptions: 
+                Configured: false
+            EnclaveOptions: 
+                Enabled: false
