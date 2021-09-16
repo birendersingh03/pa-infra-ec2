@@ -5,6 +5,7 @@ Description: "PA general Security Groups"
 Parameters:
     pVPCNAME:
       Type: String
+       Default: pa-vpc
 Resources:
     EC2Instance:
         Type: "AWS::EC2::Instance"
